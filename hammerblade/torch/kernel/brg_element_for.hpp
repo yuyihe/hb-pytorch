@@ -177,10 +177,13 @@ inline void brg_elementwise_for_unroll_2(bsg_tensor_t* _t0, bsg_tensor_t* _t1,
   size_t iter = end / 2;
   for (size_t i = start; i < iter; i++) {
     *(*res) = functor(*(*input), *(*other));
-    *(*(res+1)) = functor(*(*(input+1)), *(*(other+1)));
-    res = res + 2;
-    input = input + 2;
-    other = other + 2;
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
   }
   if (end % 2 == 1) {
     *(*res) = functor(*(*input), *(*other));
