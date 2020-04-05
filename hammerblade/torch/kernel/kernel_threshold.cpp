@@ -20,7 +20,7 @@ extern "C" {
     // Start profiling
     bsg_cuda_print_stat_kernel_start();
 
-    brg_tile_elementwise_for(t0_p, t1_p, t2_p,
+    brg_elementwise_for_unroll_2(t0_p, t1_p, t2_p,
       [&](float self, float other) {
         if (self <= threshold) {
           return value;
