@@ -176,19 +176,19 @@ inline void brg_elementwise_for_unroll_2(bsg_tensor_t* _t0, bsg_tensor_t* _t1,
   size_t end = res.numel();
   size_t iter = end / 2;
   for (size_t i = start; i < iter; i++) {
-    // *(*res) = functor(*(*input), *(*other));
-    // res++;
-    // input++;
-    // other++;
-    // *(*res) = functor(*(*input), *(*other));
-    // res++;
-    // input++;
-    // other++;
     *(*res) = functor(*(*input), *(*other));
-    *(*(res+1)) = functor(*(*(input+1)), *(*(other+1)));
-    res = res + 2;
-    input = input + 2;
-    other = other + 2;
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    // *(*res) = functor(*(*input), *(*other));
+    // *(*(res+1)) = functor(*(*(input+1)), *(*(other+1)));
+    // res = res + 2;
+    // input = input + 2;
+    // other = other + 2;
   }
   if (end % 2 == 1) {
     *(*res) = functor(*(*input), *(*other));
@@ -217,6 +217,71 @@ inline void brg_elementwise_for_unroll_4(bsg_tensor_t* _t0, bsg_tensor_t* _t1,
   size_t iter = end / 4;
   size_t remain = end % 4;
   for (size_t i = start; i < iter; i++) {
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+  }
+  if (remain != 0) {
+    for (size_t i = 0; i < remain; i++)
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+  }
+}
+
+
+template <class FetchFunctor>
+inline void brg_elementwise_for_unroll_8(bsg_tensor_t* _t0, bsg_tensor_t* _t1,
+                                 bsg_tensor_t* _t2, FetchFunctor functor) {
+  //--------------------------------------------------
+  // get the type of frist argument of lambda function
+  //-------------------------------------------------
+  using f = function_traits::traits<decltype(functor)>;
+  using T = typename f::template arg<0>::type;
+  //-----------------
+  // wrap bsg_tensors
+  //-----------------
+  auto res = BRGIteratorTensor<T*>(_t0);
+  auto input = BRGIteratorTensor<T*>(_t1);
+  auto other = BRGIteratorTensor<T*>(_t2);
+  //-----------------------------
+  // iterating over all elementes
+  //-----------------------------
+  size_t start = 0;
+  size_t end = res.numel();
+  size_t iter = end / 8;
+  size_t remain = end % 8;
+  for (size_t i = start; i < iter; i++) {
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
+    *(*res) = functor(*(*input), *(*other));
+    res++;
+    input++;
+    other++;
     *(*res) = functor(*(*input), *(*other));
     res++;
     input++;
