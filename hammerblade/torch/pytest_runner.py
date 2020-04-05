@@ -48,4 +48,4 @@ print(" starting pytest ...")
 print()
 
 # invoke pytest main loop
-pytest.main(pytest_argv + targets)
+pytest.main(pytest_argv + targets + ['-k torch_nn_relu_3'])
