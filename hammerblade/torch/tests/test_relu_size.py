@@ -31,7 +31,7 @@ def test_relu_size_3():
     assert x_h_relu.device == torch.device("hammerblade")
     assert torch.equal(x_h_relu.cpu(), x_relu)
 
-   def test_relu_size_4():
+def test_relu_size_4():
     x = torch.randn(40)
     x_h = x.hammerblade()
     relu = nn.ReLU()
