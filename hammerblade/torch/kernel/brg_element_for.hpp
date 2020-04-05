@@ -299,13 +299,13 @@ inline void brg_elementwise_for_unroll_8(bsg_tensor_t* _t0, bsg_tensor_t* _t1,
     input++;
     other++;
   }
-  if (remain != 0) {
-    for (size_t i = 0; i < remain; i++)
-    *(*res) = functor(*(*input), *(*other));
-    res++;
-    input++;
-    other++;
-  }
+  // if (remain != 0) {
+  //   for (size_t i = 0; i < remain; i++)
+  //   *(*res) = functor(*(*input), *(*other));
+  //   res++;
+  //   input++;
+  //   other++;
+  // }
 }
 
 // =========================================================
