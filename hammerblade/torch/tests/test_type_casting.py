@@ -48,3 +48,10 @@ def test_torch_to_int_to_long_1():
     assert long_h.type() == 'torch.hammerblade.LongTensor'
     assert long_h.device == torch.device("hammerblade")
     assert torch.equal(long_x, long_h.cpu())
+
+def test_copy_hangs_in_cosim():
+    x = torch.ones(10, dtype=torch.long)
+    h = x.hammerblade()
+    int_h = h.to(torch.int)
+    int_h = h.to(torch.int)
+    int_h = h.to(torch.int)

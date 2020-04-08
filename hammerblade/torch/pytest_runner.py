@@ -48,4 +48,4 @@ print(" starting pytest ...")
 print()
 
 # invoke pytest main loop
-exit(pytest.main(pytest_argv + targets))
+exit(pytest.main(pytest_argv + targets + ['-k copy_hangs_in_cosim']))
